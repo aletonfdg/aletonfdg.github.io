@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Поле чудес - Биология проект 10 класс </title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html,
+        body {
+            height: 100%;
+            overflow-x: hidden;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('фон.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+            position: relative;
+        }
+        /* Полупрозрачный слой поверх фона для лучшей читаемости */
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.3);
+            z-index: -1;
+        }
+        
+        .container {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 800px;
+            margin: 50px auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            position: relative;
+            z-index: 1;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .game-area {
+            text-align: center;
+        }
+        
+        .question-block {
+            background-color: rgba(236, 240, 241, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .question-block h2 {
+            color: #34495e;
+            margin-bottom: 10px;
+        }
+        
+        #question {
+            font-size: 1.1em;
+            color: #2c3e50;
+            line-height: 1.5;
+        }
+        
+        .word-display {
+            font-size: 2.5em;
+            letter-spacing: 10px;
+            margin: 30px 0;
+            font-weight: bold;
+            color: #2c3e50;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .alphabet {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin: 30px 0;
+        }
+        
+        .letter-btn {
+            width: 45px;
+            height: 45px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 5px;
+            background-color: #3498db;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        .letter-btn:hover {
+            background-color: #2980b9;
+            transform: scale(1.1);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .letter-btn:disabled {
+            background-color: #95a5a6;
+            cursor: not-allowed;
+            transform: scale(1);
+            box-shadow: none;
+        }
+        
+        .letter-btn.correct {
+            background-color: #27ae60;
+        }
+        
+        .letter-btn.wrong {
+            background-color: #e74c3c;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin-top: 30px;
+        }
+        
+        #newGame {
+            padding: 12px 30px;
+            font-size: 1.1em;
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        #newGame:hover {
+            background-color: #229954;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .score,
+        .attempts {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #2c3e50;
+            background-color: rgba(255, 255, 255, 0.7);
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+        
+        .message {
+            margin-top: 20px;
+            font-size: 1.3em;
+            font-weight: bold;
+            height: 30px;
+        }
+        
+        .message.win {
+            color: #27ae60;
+        }
+        
+        .message.lose {
+            color: #e74c3c;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+                margin: 20px auto;
+            }
+            h1 {
+                font-size: 2em;
+            }
+            .word-display {
+                font-size: 2em;
+                letter-spacing: 5px;
+            }
+            .letter-btn {
+                width: 35px;
+                height: 35px;
+                font-size: 1em;
+            }
+            .controls {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1 style="font:bold;font-family: 'Courier New', Courier, monospace;font-size: 50;">Поле чудес - Биология 10 класс</h1>
+
+        <div class="game-area">
+            <div class="question-block">
+                <h2>Вопрос:</h2>
+                <p id="question"></p>
+            </div>
+
+            <div class="word-display" id="wordDisplay"></div>
+
+            <div class="alphabet" id="alphabet"></div>
+
+            <div class="controls">
+                <button id="newGame">Новая игра</button>
+                <div class="score">Очки: <span id="score">0</span></div>
+                <div class="attempts">Попытки: <span id="attempts">6</span></div>
+            </div>
+
+            <div id="message" class="message"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
